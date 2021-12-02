@@ -12,6 +12,36 @@ fun main() {
     check(part1(testInput) == 1)
 
     val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    var numberOfIncs = 0
+    var numberOfSumIncs = 0
+    var lastNumber = ""
+    var window = arrayOf(0,0,0,0)
+    var count = 0
+    var sum = 0
+    var lastSum = 0
+
+    for (number in input) {
+        if ((!lastNumber.equals("")) && (lastNumber.toInt() <= number.toInt())) {
+            numberOfIncs++
+        }
+        count++
+        for (i in 0..3) {
+            if (((count - i) % 4) >= 1) {
+                window[i] = window[i] + number.toInt()
+                if (((count - i) % 4) == 3) {
+                    sum = window[i]
+                    window[i] = 0
+                }
+                if ((sum > lastSum) && (lastSum != 0)) {
+                    numberOfSumIncs++
+                }
+                lastSum = sum
+            }
+        }
+        lastNumber = number
+    }
+    println(numberOfIncs)
+    println(numberOfSumIncs)
+    //println(part1(input))
+    //println(part2(input))
 }
